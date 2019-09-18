@@ -1,14 +1,14 @@
 # homebrew-tap
 
-This is Clover Health's Homebrew Tap, which features formulas to help pin
-Postgres to 9.6 and Postgis to 2.5.
+This is Journy's Homebrew Tap, which features formulas to help pin
+Postgres to 9.4 and Postgis to 2.5.
 
 Homebrew will pull in the latest version of formulas when they are upgraded,
-meaning that users can inadvertently be upgraded to Postgresql 10. The
-postgresql.rb formula here ensures that 9.6.10 is installed, and the postgis.rb
-formulate ensures that 2.5.2 is installed.
+meaning that users can inadvertently be upgraded to Postgresql 11. The
+postgresql.rb formula here ensures that 9.4.23 is installed, and the postgis.rb
+formulate ensures that 2.5.3 is installed.
 
-## Installing Postgres 9.6 and Postgis 2.5
+## Installing Postgres 9.4 and Postgis 2.5
 
 First ensure you have upgraded to the latest homebrew:
 
@@ -22,14 +22,16 @@ installations:
 ```sh
 brew uninstall postgis --force
 brew uninstall postgresql --force
+brew uninstall postgresql@9.4 --force
 brew cleanup
+brew services stop postgresql@9.4
 brew services stop postgresql
 ```
 
 After this, install Clover's custom brew tap:
 
 ```sh
-brew tap cloverhealth/homebrew-tap
+brew tap journy/homebrew-tap
 ```
 
 Then install the latest version of Postgres and unlink it. This is done first so that
@@ -40,7 +42,7 @@ brew install postgresql
 brew unlink postgresql
 ```
 
-The previous install of postgresql runs `initdb`, which creates database structures incompatible with 9.6.10. This needs to be removed with:
+The previous install of postgresql runs `initdb`, which creates database structures incompatible with 9.4.23. This needs to be removed with:
 
 ```sh
 rm -rf /usr/local/var/postgres
@@ -49,27 +51,27 @@ rm -rf /usr/local/var/postgres
 Now install Postgres from this tap with:
 
 ```sh
-brew install cloverhealth/tap/postgresql  # yes, without the homebrew-
+brew install journy/tap/postgresql  # yes, without the homebrew-
 ```
 
-Now you will have both 9.6.10 and the latest version of Postgres installed.
-Switch to 9.6.10 with:
+Now you will have both 9.4.23 and the latest version of Postgres installed.
+Switch to 9.4.23 with:
 
 ```sh
-brew switch postgresql 9.6.10
+brew switch postgresql 9.4.23
 ```
 
 Postgis 2.5 can be installed with:
 
 ```sh
-brew install cloverhealth/tap/postgis
+brew install journy/tap/postgis
 ```
 
 Try running and accessing Postgres with the following:
 
 ```sh
 brew services start postgresql
-psql postgres  # It should show 9.6.10 as the version on the prompt
+psql postgres  # It should show 9.4.23 as the version on the prompt
 ```
 
 After running `psql postgres`, type the following in the prompt to verify your Postgis installation:
