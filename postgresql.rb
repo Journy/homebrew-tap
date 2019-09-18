@@ -49,8 +49,16 @@ class Postgresql < Formula
       args << "--with-tclconfig=#{MacOS.sdk_path}/System/Library/Frameworks/Tcl.framework"
     end
 
+    dirs = %W[datadir=#{pkgshare} libdir=#{lib} pkglibdir=#{lib}/postgresql]
     system "./configure", *args
-    system "make", "install-world"
+
+    if DevelopmentTools.clang_build_version >= 1000
+      system "make", "all"
+      system "make", "-C", "contrib", "install", "all", *dirs
+      system "make", "install", "all", *dirs
+    else
+      system "make", "install-world", *dirs
+    end
   end
 
   def post_install
