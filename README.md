@@ -5,7 +5,7 @@ Postgres to 9.4 and Postgis to 2.5.
 
 Homebrew will pull in the latest version of formulas when they are upgraded,
 meaning that users can inadvertently be upgraded to Postgresql 11. The
-postgresql.rb formula here ensures that 9.4.23 is installed, and the postgis.rb
+postgresql.rb formula here ensures that 9.4.24 is installed, and the postgis.rb
 formulate ensures that 2.5.3 is installed.
 
 ## Installing Postgres 9.4 and Postgis 2.5
@@ -42,7 +42,7 @@ brew install postgresql
 brew unlink postgresql
 ```
 
-The previous install of postgresql runs `initdb`, which creates database structures incompatible with 9.4.23. This needs to be removed with:
+The previous install of postgresql runs `initdb`, which creates database structures incompatible with 9.4.24. This needs to be removed with:
 
 ```sh
 rm -rf /usr/local/var/postgres
@@ -54,11 +54,11 @@ Now install Postgres from this tap with:
 brew install journy/tap/postgresql  # yes, without the homebrew-
 ```
 
-Now you will have both 9.4.23 and the latest version of Postgres installed.
-Switch to 9.4.23 with:
+Now you will have both 9.4.24 and the latest version of Postgres installed.
+Switch to 9.4.24 with:
 
 ```sh
-brew switch postgresql 9.4.23
+brew switch postgresql 9.4.24
 ```
 
 Postgis 2.5 can be installed with:
@@ -71,7 +71,7 @@ Try running and accessing Postgres with the following:
 
 ```sh
 brew services start postgresql
-psql postgres  # It should show 9.4.23 as the version on the prompt
+psql postgres  # It should show 9.4.24 as the version on the prompt
 ```
 
 After running `psql postgres`, type the following in the prompt to verify your Postgis installation:
@@ -83,4 +83,10 @@ select ST_Distance(
   ST_GeometryFromText('POINT(-118.4079 33.9434)', 4326), -- Los Angeles (LAX)
   ST_GeometryFromText('POINT(2.5559 49.0083)', 4326)     -- Paris (CDG)
 );  -- This should print a row with 121.898285970107 as a value
+```
+
+If you have to set up a `postgres` user to run `rake db:setup` in your rails application you can run:
+
+```sh
+CREATE ROLE postgres LOGIN CREATEDB SUPERUSER;
 ```
